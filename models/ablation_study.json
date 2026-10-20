@@ -1,0 +1,90 @@
+{
+  "A_EHR_Only": {
+    "model_name": "Logistic Regression (EHR Only)",
+    "features_count": 10,
+    "roc_auc": 0.9505,
+    "pr_auc": 0.174,
+    "precision": 0.0761,
+    "recall": 0.9397,
+    "f1": 0.1408,
+    "sensitivity": 0.9397,
+    "specificity": 0.8502,
+    "brier_score": 0.0902,
+    "false_positive_rate": 0.1498,
+    "false_negative_rate": 0.0603,
+    "early_warning_time_median_min": 70.0,
+    "early_warning_time_mean_min": 79.3,
+    "confusion_matrix": {
+      "true_negatives": 83838,
+      "false_positives": 14768,
+      "false_negatives": 78,
+      "true_positives": 1216
+    }
+  },
+  "B_Sensor_Only": {
+    "model_name": "HistGradientBoosting (Sensors Only)",
+    "features_count": 9,
+    "roc_auc": 0.9604,
+    "pr_auc": 0.2698,
+    "precision": 0.1487,
+    "recall": 0.7682,
+    "f1": 0.2492,
+    "sensitivity": 0.7682,
+    "specificity": 0.9423,
+    "brier_score": 0.0435,
+    "false_positive_rate": 0.0577,
+    "false_negative_rate": 0.2318,
+    "early_warning_time_median_min": 70.0,
+    "early_warning_time_mean_min": 79.0,
+    "confusion_matrix": {
+      "true_negatives": 92915,
+      "false_positives": 5691,
+      "false_negatives": 300,
+      "true_positives": 994
+    }
+  },
+  "C_Multimodal_Fused": {
+    "model_name": "HistGradientBoosting (EHR + Sensors)",
+    "features_count": 19,
+    "roc_auc": 0.9861,
+    "pr_auc": 0.4852,
+    "precision": 0.3891,
+    "recall": 0.7025,
+    "f1": 0.5008,
+    "sensitivity": 0.7025,
+    "specificity": 0.9855,
+    "brier_score": 0.0135,
+    "false_positive_rate": 0.0145,
+    "false_negative_rate": 0.2975,
+    "early_warning_time_median_min": 70.0,
+    "early_warning_time_mean_min": 77.8,
+    "confusion_matrix": {
+      "true_negatives": 97179,
+      "false_positives": 1427,
+      "false_negatives": 385,
+      "true_positives": 909
+    }
+  },
+  "D_Full_Digital_Twin": {
+    "model_name": "GlucoTwin State Engine (Full Multimodal + Personalized Baseline Deviations)",
+    "features_count": 29,
+    "roc_auc": 0.9881,
+    "pr_auc": 0.5374,
+    "precision": 0.4232,
+    "recall": 0.7372,
+    "f1": 0.5378,
+    "sensitivity": 0.7372,
+    "specificity": 0.9868,
+    "brier_score": 0.012,
+    "false_positive_rate": 0.0132,
+    "false_negative_rate": 0.2628,
+    "early_warning_time_median_min": 70.0,
+    "early_warning_time_mean_min": 77.5,
+    "confusion_matrix": {
+      "true_negatives": 97306,
+      "false_positives": 1300,
+      "false_negatives": 340,
+      "true_positives": 954
+    }
+  }
+}

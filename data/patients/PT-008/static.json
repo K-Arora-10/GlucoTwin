@@ -1,0 +1,27 @@
+{
+  "patient_id": "PT-008",
+  "name": "Synthetic Patient 8",
+  "archetype": "Cohort Trajectory",
+  "description": "Type-2 diabetes cohort member with HbA1c 9.9%, BMI 31.5.",
+  "age": 45,
+  "sex": "female",
+  "BMI": 31.5,
+  "diabetes_duration_years": 3,
+  "HbA1c": 9.9,
+  "baseline_glucose": 169.2,
+  "medications": [
+    "Diet & Lifestyle Monitored"
+  ],
+  "comorbidities": [
+    "Sleep Apnea"
+  ],
+  "baseline_hr": 72.5,
+  "baseline_hrv": 45.4,
+  "insulin_sensitivity": 0.027,
+  "glucose_clearance": 0.0282,
+  "carb_sensitivity": 2.01,
+  "activity_frequency": 0.5,
+  "sleep_quality_mean": 0.72,
+  "sensor_noise_std": 2.1,
+  "dropout_rate": 0.04
+}

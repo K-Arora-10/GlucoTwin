@@ -1,0 +1,27 @@
+{
+  "patient_id": "PT-068",
+  "name": "Synthetic Patient 68",
+  "archetype": "Cohort Trajectory",
+  "description": "Type-2 diabetes cohort member with HbA1c 9.0%, BMI 29.3.",
+  "age": 51,
+  "sex": "male",
+  "BMI": 29.3,
+  "diabetes_duration_years": 3,
+  "HbA1c": 9.0,
+  "baseline_glucose": 150.5,
+  "medications": [
+    "Metformin 1000mg BID"
+  ],
+  "comorbidities": [
+    "Coronary Artery Disease"
+  ],
+  "baseline_hr": 70.4,
+  "baseline_hrv": 44.0,
+  "insulin_sensitivity": 0.0323,
+  "glucose_clearance": 0.0282,
+  "carb_sensitivity": 1.786,
+  "activity_frequency": 0.43,
+  "sleep_quality_mean": 0.49,
+  "sensor_noise_std": 3.2,
+  "dropout_rate": 0.02
+}

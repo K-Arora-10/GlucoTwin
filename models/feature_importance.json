@@ -1,0 +1,176 @@
+[
+  {
+    "feature": "glucose_velocity_15m",
+    "importance": 0.003,
+    "std": 0.00035,
+    "category": "Personalized Twin"
+  },
+  {
+    "feature": "recent_carbs_60m",
+    "importance": 0.00233,
+    "std": 0.00012,
+    "category": "Sensor"
+  },
+  {
+    "feature": "tod_cos",
+    "importance": 0.00075,
+    "std": 0.00094,
+    "category": "Sensor"
+  },
+  {
+    "feature": "glucose_roll_std_60m",
+    "importance": 0.00067,
+    "std": 0.00101,
+    "category": "Sensor"
+  },
+  {
+    "feature": "sleep_quality",
+    "importance": 0.00058,
+    "std": 0.00042,
+    "category": "Sensor"
+  },
+  {
+    "feature": "tod_sin",
+    "importance": 0.0005,
+    "std": 0.00102,
+    "category": "Sensor"
+  },
+  {
+    "feature": "glucose_acc_30m",
+    "importance": 0.0005,
+    "std": 0.0002,
+    "category": "Personalized Twin"
+  },
+  {
+    "feature": "hrv_roll_mean_30m",
+    "importance": 0.0005,
+    "std": 0.00035,
+    "category": "Sensor"
+  },
+  {
+    "feature": "base_hrv",
+    "importance": 0.00042,
+    "std": 0.00047,
+    "category": "EHR"
+  },
+  {
+    "feature": "hr",
+    "importance": 0.00042,
+    "std": 0.00024,
+    "category": "Sensor"
+  },
+  {
+    "feature": "diabetes_duration_years",
+    "importance": 0.00033,
+    "std": 0.00012,
+    "category": "EHR"
+  },
+  {
+    "feature": "hba1c",
+    "importance": 0.00025,
+    "std": 0.00061,
+    "category": "EHR"
+  },
+  {
+    "feature": "base_glucose",
+    "importance": 0.00025,
+    "std": 0.00114,
+    "category": "EHR"
+  },
+  {
+    "feature": "base_hr",
+    "importance": 8e-05,
+    "std": 0.00031,
+    "category": "EHR"
+  },
+  {
+    "feature": "hrv",
+    "importance": 8e-05,
+    "std": 0.00031,
+    "category": "Sensor"
+  },
+  {
+    "feature": "hrv_dev_base",
+    "importance": 8e-05,
+    "std": 0.00012,
+    "category": "Personalized Twin"
+  },
+  {
+    "feature": "sex",
+    "importance": 0.0,
+    "std": 0.0,
+    "category": "EHR"
+  },
+  {
+    "feature": "medication_count",
+    "importance": 0.0,
+    "std": 0.0,
+    "category": "EHR"
+  },
+  {
+    "feature": "activity_intensity",
+    "importance": -8e-05,
+    "std": 0.00012,
+    "category": "Sensor"
+  },
+  {
+    "feature": "hr_dev_base",
+    "importance": -8e-05,
+    "std": 0.00012,
+    "category": "Personalized Twin"
+  },
+  {
+    "feature": "age",
+    "importance": -0.00017,
+    "std": 0.00031,
+    "category": "EHR"
+  },
+  {
+    "feature": "comorbidity_count",
+    "importance": -0.00017,
+    "std": 0.00031,
+    "category": "EHR"
+  },
+  {
+    "feature": "steps_sum_30m",
+    "importance": -0.00033,
+    "std": 0.00066,
+    "category": "Sensor"
+  },
+  {
+    "feature": "bmi",
+    "importance": -0.00042,
+    "std": 0.00066,
+    "category": "EHR"
+  },
+  {
+    "feature": "glucose",
+    "importance": -0.00058,
+    "std": 0.00051,
+    "category": "Sensor"
+  },
+  {
+    "feature": "glucose_dev_base",
+    "importance": -0.00058,
+    "std": 0.00072,
+    "category": "Personalized Twin"
+  },
+  {
+    "feature": "metabolic_stability",
+    "importance": -0.00058,
+    "std": 0.00012,
+    "category": "Personalized Twin"
+  },
+  {
+    "feature": "hr_roll_mean_30m",
+    "importance": -0.00108,
+    "std": 0.00085,
+    "category": "Sensor"
+  },
+  {
+    "feature": "glucose_roll_mean_60m",
+    "importance": -0.00175,
+    "std": 0.00054,
+    "category": "Sensor"
+  }
+]

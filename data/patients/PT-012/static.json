@@ -1,0 +1,26 @@
+{
+  "patient_id": "PT-012",
+  "name": "Synthetic Patient 12",
+  "archetype": "Cohort Trajectory",
+  "description": "Type-2 diabetes cohort member with HbA1c 7.8%, BMI 29.4.",
+  "age": 42,
+  "sex": "male",
+  "BMI": 29.4,
+  "diabetes_duration_years": 6,
+  "HbA1c": 7.8,
+  "baseline_glucose": 126.4,
+  "medications": [
+    "Metformin 1000mg BID",
+    "Glimepiride 2mg QD"
+  ],
+  "comorbidities": [],
+  "baseline_hr": 72.8,
+  "baseline_hrv": 57.5,
+  "insulin_sensitivity": 0.0358,
+  "glucose_clearance": 0.0264,
+  "carb_sensitivity": 1.548,
+  "activity_frequency": 0.15,
+  "sleep_quality_mean": 0.95,
+  "sensor_noise_std": 4.4,
+  "dropout_rate": 0.01
+}

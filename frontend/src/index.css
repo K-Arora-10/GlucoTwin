@@ -1,0 +1,6 @@
+/* Clean global dark theme CSS */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+}

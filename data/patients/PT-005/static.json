@@ -1,0 +1,31 @@
+{
+  "patient_id": "PT-005",
+  "name": "Robert Kowalski",
+  "archetype": "Complex Multi-Morbidity & Sensor Dropout",
+  "description": "Advanced diabetes duration, renal microvascular disease, intermittent wearable contact loss, noisy readings.",
+  "age": 71,
+  "sex": "male",
+  "BMI": 32.2,
+  "diabetes_duration_years": 16,
+  "HbA1c": 8.3,
+  "baseline_glucose": 140.0,
+  "medications": [
+    "Metformin 500mg BID",
+    "Sitagliptin 100mg QD",
+    "Lisinopril 20mg QD"
+  ],
+  "comorbidities": [
+    "Stage 2 CKD",
+    "Peripheral Neuropathy",
+    "Hypertension"
+  ],
+  "baseline_hr": 74.0,
+  "baseline_hrv": 22.0,
+  "insulin_sensitivity": 0.022,
+  "glucose_clearance": 0.017,
+  "carb_sensitivity": 1.85,
+  "activity_frequency": 0.25,
+  "sleep_quality_mean": 0.55,
+  "sensor_noise_std": 6.0,
+  "dropout_rate": 0.07
+}

@@ -1,0 +1,28 @@
+{
+  "patient_id": "PT-067",
+  "name": "Synthetic Patient 67",
+  "archetype": "Cohort Trajectory",
+  "description": "Type-2 diabetes cohort member with HbA1c 8.7%, BMI 30.6.",
+  "age": 58,
+  "sex": "female",
+  "BMI": 30.6,
+  "diabetes_duration_years": 1,
+  "HbA1c": 8.7,
+  "baseline_glucose": 147.8,
+  "medications": [
+    "Metformin 500mg BID"
+  ],
+  "comorbidities": [
+    "Hypertension",
+    "Dyslipidemia"
+  ],
+  "baseline_hr": 70.0,
+  "baseline_hrv": 45.6,
+  "insulin_sensitivity": 0.0317,
+  "glucose_clearance": 0.0294,
+  "carb_sensitivity": 1.752,
+  "activity_frequency": 0.49,
+  "sleep_quality_mean": 0.49,
+  "sensor_noise_std": 3.7,
+  "dropout_rate": 0.02
+}

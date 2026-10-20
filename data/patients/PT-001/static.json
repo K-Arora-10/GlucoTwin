@@ -1,0 +1,25 @@
+{
+  "patient_id": "PT-001",
+  "name": "Eleanor Vance",
+  "archetype": "Stable Diabetic",
+  "description": "Controlled type-2 diabetes, consistent diet, regular moderate exercise, predictable postprandial recovery.",
+  "age": 58,
+  "sex": "female",
+  "BMI": 26.4,
+  "diabetes_duration_years": 4,
+  "HbA1c": 6.7,
+  "baseline_glucose": 112.0,
+  "medications": [
+    "Metformin 500mg BID"
+  ],
+  "comorbidities": [],
+  "baseline_hr": 68.0,
+  "baseline_hrv": 48.0,
+  "insulin_sensitivity": 0.042,
+  "glucose_clearance": 0.028,
+  "carb_sensitivity": 1.25,
+  "activity_frequency": 0.85,
+  "sleep_quality_mean": 0.85,
+  "sensor_noise_std": 2.5,
+  "dropout_rate": 0.005
+}

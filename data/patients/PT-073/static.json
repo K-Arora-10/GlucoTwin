@@ -1,0 +1,27 @@
+{
+  "patient_id": "PT-073",
+  "name": "Synthetic Patient 73",
+  "archetype": "Cohort Trajectory",
+  "description": "Type-2 diabetes cohort member with HbA1c 8.3%, BMI 30.3.",
+  "age": 70,
+  "sex": "male",
+  "BMI": 30.3,
+  "diabetes_duration_years": 2,
+  "HbA1c": 8.3,
+  "baseline_glucose": 139.9,
+  "medications": [
+    "Diet & Lifestyle Monitored"
+  ],
+  "comorbidities": [
+    "Dyslipidemia"
+  ],
+  "baseline_hr": 66.8,
+  "baseline_hrv": 36.0,
+  "insulin_sensitivity": 0.0332,
+  "glucose_clearance": 0.0288,
+  "carb_sensitivity": 1.666,
+  "activity_frequency": 0.33,
+  "sleep_quality_mean": 0.67,
+  "sensor_noise_std": 2.9,
+  "dropout_rate": 0.02
+}

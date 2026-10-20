@@ -1,0 +1,13 @@
+{
+  "patient_id": "p001",
+  "age": 55,
+  "sex": "female",
+  "BMI": 31.2,
+  "diabetes_duration_years": 8,
+  "HbA1c": 7.8,
+  "baseline_glucose": 110,
+  "medications": ["metformin", "glipizide"],
+  "comorbidities": ["hypertension"],
+  "baseline_hr": 72,
+  "baseline_hrv": 55
+}

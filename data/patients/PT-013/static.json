@@ -1,0 +1,28 @@
+{
+  "patient_id": "PT-013",
+  "name": "Synthetic Patient 13",
+  "archetype": "Cohort Trajectory",
+  "description": "Type-2 diabetes cohort member with HbA1c 6.8%, BMI 27.0.",
+  "age": 65,
+  "sex": "female",
+  "BMI": 27.0,
+  "diabetes_duration_years": 2,
+  "HbA1c": 6.8,
+  "baseline_glucose": 109.8,
+  "medications": [
+    "Semaglutide 0.5mg QW",
+    "Metformin 1000mg BID"
+  ],
+  "comorbidities": [
+    "Dyslipidemia"
+  ],
+  "baseline_hr": 63.8,
+  "baseline_hrv": 47.7,
+  "insulin_sensitivity": 0.0417,
+  "glucose_clearance": 0.0288,
+  "carb_sensitivity": 1.3,
+  "activity_frequency": 0.34,
+  "sleep_quality_mean": 0.68,
+  "sensor_noise_std": 3.6,
+  "dropout_rate": 0.01
+}

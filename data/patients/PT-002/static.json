@@ -1,0 +1,29 @@
+{
+  "patient_id": "PT-002",
+  "name": "Marcus Chen",
+  "archetype": "High-Risk Diabetic",
+  "description": "Elevated fasting glucose, insulin resistance, frequent acute postprandial excursions crossing 200 mg/dL.",
+  "age": 63,
+  "sex": "male",
+  "BMI": 33.8,
+  "diabetes_duration_years": 11,
+  "HbA1c": 8.9,
+  "baseline_glucose": 148.0,
+  "medications": [
+    "Metformin 1000mg BID",
+    "Glimepiride 4mg QD"
+  ],
+  "comorbidities": [
+    "Hypertension",
+    "Dyslipidemia"
+  ],
+  "baseline_hr": 78.0,
+  "baseline_hrv": 28.0,
+  "insulin_sensitivity": 0.018,
+  "glucose_clearance": 0.015,
+  "carb_sensitivity": 2.1,
+  "activity_frequency": 0.3,
+  "sleep_quality_mean": 0.6,
+  "sensor_noise_std": 3.5,
+  "dropout_rate": 0.01
+}

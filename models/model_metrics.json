@@ -1,0 +1,20 @@
+{
+  "roc_auc": 0.9881,
+  "pr_auc": 0.5374,
+  "precision": 0.4232,
+  "recall": 0.7372,
+  "f1": 0.5378,
+  "sensitivity": 0.7372,
+  "specificity": 0.9868,
+  "brier_score": 0.012,
+  "false_positive_rate": 0.0132,
+  "false_negative_rate": 0.2628,
+  "early_warning_time_median_min": 70.0,
+  "early_warning_time_mean_min": 77.5,
+  "confusion_matrix": {
+    "true_negatives": 97306,
+    "false_positives": 1300,
+    "false_negatives": 340,
+    "true_positives": 954
+  }
+}

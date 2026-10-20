@@ -1,0 +1,29 @@
+{
+  "patient_id": "PT-096",
+  "name": "Synthetic Patient 96",
+  "archetype": "Cohort Trajectory",
+  "description": "Type-2 diabetes cohort member with HbA1c 7.8%, BMI 33.7.",
+  "age": 63,
+  "sex": "female",
+  "BMI": 33.7,
+  "diabetes_duration_years": 1,
+  "HbA1c": 7.8,
+  "baseline_glucose": 131.2,
+  "medications": [
+    "Metformin 850mg BID",
+    "Empagliflozin 10mg QD"
+  ],
+  "comorbidities": [
+    "Hypertension",
+    "Dyslipidemia"
+  ],
+  "baseline_hr": 71.2,
+  "baseline_hrv": 40.4,
+  "insulin_sensitivity": 0.0307,
+  "glucose_clearance": 0.0294,
+  "carb_sensitivity": 1.634,
+  "activity_frequency": 0.48,
+  "sleep_quality_mean": 0.84,
+  "sensor_noise_std": 2.2,
+  "dropout_rate": 0.02
+}
