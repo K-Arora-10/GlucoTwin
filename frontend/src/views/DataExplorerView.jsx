@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { Database, Search, Filter, BookOpen, Layers, CheckCircle } from 'lucide-react';
 
-export default function DataExplorerView({ patients, onSelectPatient, selectedPatientId }) {
+export default function DataExplorerView({ patients, onSelectPatient, setSelectedPatientId, selectedPatientId }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [riskFilter, setRiskFilter] = useState('ALL');
 
-  const filteredPatients = (patients || []).filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          p.patient_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          p.comorbidities?.some(c => c.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesFilter = riskFilter === 'ALL' || p.risk_category === riskFilter;
+  const handleSelect = onSelectPatient || setSelectedPatientId || (() => {});
+  const patientList = Array.isArray(patients) ? patients : (patients?.patients || []);
+
+  const filteredPatients = patientList.filter(p => {
+    const matchesSearch = (p?.name || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          (p?.patient_id || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          (p?.comorbidities || []).some(c => (c || '').toLowerCase().includes(searchTerm.toLowerCase()));
+    const matchesFilter = riskFilter === 'ALL' || p?.risk_category === riskFilter;
     return matchesSearch && matchesFilter;
   });
 
@@ -137,7 +140,7 @@ export default function DataExplorerView({ patients, onSelectPatient, selectedPa
                   className={`hover:bg-slate-800/40 transition cursor-pointer ${
                     selectedPatientId === p.patient_id ? 'bg-cyan-950/20' : ''
                   }`}
-                  onClick={() => onSelectPatient(p.patient_id)}
+                  onClick={() => handleSelect(p.patient_id)}
                 >
                   <td className="py-3 px-4 font-mono font-bold text-cyan-400">{p.patient_id}</td>
                   <td className="py-3 px-4 text-slate-300">{p.age}y {p.sex}, BMI {p.bmi}</td>
@@ -155,7 +158,7 @@ export default function DataExplorerView({ patients, onSelectPatient, selectedPa
                   </td>
                   <td className="py-3 px-4 text-right">
                     <button 
-                      onClick={(e) => { e.stopPropagation(); onSelectPatient(p.patient_id); }}
+                      onClick={(e) => { e.stopPropagation(); handleSelect(p.patient_id); }}
                       className="px-2.5 py-1 bg-cyan-600/20 hover:bg-cyan-600/40 border border-cyan-500/30 text-cyan-300 rounded text-xs transition"
                     >
                       Load Twin

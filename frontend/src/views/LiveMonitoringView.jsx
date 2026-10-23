@@ -33,22 +33,30 @@ export default function LiveMonitoringView({
 
   // Filter history based on time window
   const getWindowPoints = () => {
-    if (!patientHistory || !patientHistory.history) return [];
-    const pts = patientHistory.history;
+    const rawList = Array.isArray(patientHistory)
+      ? patientHistory
+      : Array.isArray(patientHistory?.history)
+      ? patientHistory.history
+      : [];
+    if (rawList.length === 0) return [];
     const count = timeWindow === '4h' ? 48 : timeWindow === '8h' ? 96 : 288;
-    return pts.slice(-count);
+    return rawList.slice(-count);
   };
 
-  const chartData = getWindowPoints().map(item => ({
-    time: item.timestamp.split('T')[1]?.slice(0, 5) || item.timestamp,
-    glucose: Number(item.glucose.toFixed(1)),
-    baseline: Number(personal_baseline?.mean_glucose?.toFixed(1) || 115),
-    heartRate: Math.round(item.heart_rate),
-    hrv: Math.round(item.hrv),
-    steps: Math.round(item.steps),
-    carbs: Math.round(item.meal_carbs_g),
-    spikeThreshold: 180
-  }));
+  const chartData = getWindowPoints().map(item => {
+    const rawTs = item?.timestamp || '';
+    const timeStr = rawTs.includes('T') ? rawTs.split('T')[1]?.slice(0, 5) : rawTs.slice(0, 5);
+    return {
+      time: timeStr || '--:--',
+      glucose: typeof item?.glucose === 'number' ? Number(item.glucose.toFixed(1)) : 0,
+      baseline: Number(personal_baseline?.mean_glucose?.toFixed(1) || 115),
+      heartRate: Math.round(item?.heart_rate ?? item?.hr ?? 72),
+      hrv: Math.round(item?.hrv ?? 45),
+      steps: Math.round(item?.steps ?? 0),
+      carbs: Math.round(item?.meal_carbs_g ?? item?.meal_carbs ?? 0),
+      spikeThreshold: 180
+    };
+  });
 
   const getVelocityIcon = (vel) => {
     if (vel > 1.0) return <TrendingUp className="w-5 h-5 text-rose-500 animate-pulse" />;

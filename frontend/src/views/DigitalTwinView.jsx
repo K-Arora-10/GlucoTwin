@@ -13,12 +13,18 @@ import {
   AlertTriangle
 } from 'lucide-react';
 
-export default function DigitalTwinView({ twinState, onNavigate }) {
+export default function DigitalTwinView({ twinState, onNavigate, onSimulateWhatIf, setCurrentView }) {
+  const navigate = onNavigate || onSimulateWhatIf || setCurrentView || (() => {});
+
   if (!twinState) {
     return <div className="text-center py-12 text-slate-500">Loading Digital Twin State...</div>;
   }
 
-  const { static: patient, baseline, dynamic: dyn, derived, prediction } = twinState;
+  const patient = twinState.static || twinState.static_profile || {};
+  const baseline = twinState.baseline || twinState.personal_baseline || {};
+  const dyn = twinState.dynamic || twinState.dynamic_state || {};
+  const derived = twinState.derived || twinState.derived_state || {};
+  const prediction = twinState.prediction || {};
 
   const stability = derived?.metabolic_stability ?? 100.0;
   const gDev = derived?.glucose_dev_base ?? 0.0;
@@ -258,7 +264,7 @@ export default function DigitalTwinView({ twinState, onNavigate }) {
             </div>
 
             <button
-              onClick={() => onNavigate('whatif')}
+              onClick={() => navigate('whatif')}
               className="w-full py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition shadow-sm"
             >
               Simulate Counterfactual Interventions on This Twin

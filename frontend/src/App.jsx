@@ -152,7 +152,9 @@ export default function App() {
                 twinState={twinState}
                 patientHistory={patientHistory}
                 cohortStats={cohortStats}
+                onNavigate={setCurrentView}
                 setCurrentView={setCurrentView}
+                onStepSimulation={handleStep}
               />
             )}
 
@@ -160,6 +162,10 @@ export default function App() {
               <PatientsView
                 patients={patients}
                 selectedPatientId={selectedPatientId}
+                setSelectedPatientId={(pid) => {
+                  setSelectedPatientId(pid);
+                  setCurrentView('twin');
+                }}
                 onSelectPatient={(pid) => {
                   setSelectedPatientId(pid);
                   setCurrentView('twin');
@@ -170,7 +176,9 @@ export default function App() {
             {currentView === 'twin' && (
               <DigitalTwinView
                 twinState={twinState}
+                onNavigate={setCurrentView}
                 onSimulateWhatIf={() => setCurrentView('whatif')}
+                setCurrentView={setCurrentView}
               />
             )}
 

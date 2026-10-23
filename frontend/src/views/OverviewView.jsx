@@ -23,7 +23,9 @@ import {
   ReferenceLine
 } from 'recharts';
 
-export default function OverviewView({ twinState, patientHistory, onNavigate, onStepSimulation }) {
+export default function OverviewView({ twinState, patientHistory, onNavigate, setCurrentView, onStepSimulation }) {
+  const navigate = onNavigate || setCurrentView || (() => {});
+
   if (!twinState) {
     return (
       <div className="flex items-center justify-center h-64 text-slate-500 font-medium">
@@ -32,18 +34,37 @@ export default function OverviewView({ twinState, patientHistory, onNavigate, on
     );
   }
 
-  const { static: patient, dynamic: dyn, derived, prediction, explanation } = twinState;
-  const isSpike = (dyn?.glucose ?? 0) >= 180.0;
-  const vel = dyn?.glucose_velocity_15m ?? 0.0;
-  const risk = prediction?.risk_score ?? 0.0;
-  const stability = derived?.metabolic_stability ?? 100.0;
+  const patient = twinState.static || twinState.static_profile || {};
+  const dyn = twinState.dynamic || twinState.dynamic_state || {};
+  const derived = twinState.derived || twinState.derived_state || {};
+  const prediction = twinState.prediction || {};
+  const explanation = twinState.explanation || {};
 
-  // Chart data formatting
-  const chartData = (patientHistory || []).slice(-36).map((item) => ({
-    time: item.timestamp ? item.timestamp.split('T')[1]?.substring(0, 5) : '',
-    glucose: item.glucose,
-    hr: item.hr,
-  }));
+  const isSpike = (dyn?.glucose ?? 0) >= 180.0;
+  const vel = dyn?.glucose_velocity_15m ?? dyn?.glucose_velocity ?? 0.0;
+  const risk = prediction?.risk_score ?? prediction?.spike_probability ?? 0.0;
+  const stability = derived?.metabolic_stability ?? 100.0;
+  const gDev = derived?.glucose_dev_base ?? 0.0;
+
+  // Chart data formatting: safely extract array whether passed directly or wrapped in { history: [...] }
+  const historyList = Array.isArray(patientHistory)
+    ? patientHistory
+    : Array.isArray(patientHistory?.history)
+    ? patientHistory.history
+    : [];
+
+  const chartData = historyList.slice(-36).map((item) => {
+    const rawTs = item?.timestamp || '';
+    const timeStr = rawTs.includes('T') ? rawTs.split('T')[1]?.substring(0, 5) : rawTs.substring(0, 5);
+    const glucoseVal = typeof item?.glucose === 'number' ? Number(item.glucose.toFixed(1)) : (Number(item?.glucose) || 0);
+    const hrVal = typeof item?.hr === 'number' ? Math.round(item.hr) : (typeof item?.heart_rate === 'number' ? Math.round(item.heart_rate) : 72);
+
+    return {
+      time: timeStr || '--:--',
+      glucose: glucoseVal,
+      hr: hrVal,
+    };
+  });
 
   return (
     <div className="space-y-6">
@@ -56,7 +77,7 @@ export default function OverviewView({ twinState, patientHistory, onNavigate, on
                 Active Digital Twin Session
               </span>
               <span className="text-xs text-slate-400">
-                ID: <strong className="text-white">{patient.patient_id}</strong> | {patient.name} ({patient.archetype})
+                ID: <strong className="text-white">{patient?.patient_id || 'PT-001'}</strong> | {patient?.name || 'Patient'} ({patient?.archetype || 'Standard'})
               </span>
             </div>
             <h1 className="text-2xl font-bold text-white mt-1.5 tracking-tight">
@@ -69,14 +90,14 @@ export default function OverviewView({ twinState, patientHistory, onNavigate, on
 
           <div className="flex items-center space-x-3">
             <button
-              onClick={() => onNavigate('whatif')}
+              onClick={() => navigate('whatif')}
               className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs transition shadow-sm"
             >
               <Sliders className="w-4 h-4" />
               <span>Explore What-If Interventions</span>
             </button>
             <button
-              onClick={() => onNavigate('twin')}
+              onClick={() => navigate('twin')}
               className="flex items-center space-x-1.5 px-4 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-semibold text-xs transition"
             >
               <span>Inspect Virtual Twin</span>
@@ -97,13 +118,15 @@ export default function OverviewView({ twinState, patientHistory, onNavigate, on
             </span>
           </div>
           <div className="mt-2 flex items-baseline space-x-2">
-            <span className="text-3xl font-bold tracking-tight text-slate-900">{dyn.glucose}</span>
+            <span className="text-3xl font-bold tracking-tight text-slate-900">
+              {typeof dyn?.glucose === 'number' ? dyn.glucose.toFixed(1) : (dyn?.glucose ?? '--')}
+            </span>
             <span className="text-xs font-semibold text-slate-500">mg/dL</span>
           </div>
           <div className="mt-2 flex items-center text-xs">
-            <span className={`font-semibold flex items-center mr-1.5 ${derived.glucose_dev_base >= 0 ? 'text-amber-600' : 'text-teal-600'}`}>
-              {derived.glucose_dev_base >= 0 ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
-              {derived.glucose_dev_base > 0 ? `+${derived.glucose_dev_base}` : derived.glucose_dev_base} mg/dL
+            <span className={`font-semibold flex items-center mr-1.5 ${gDev >= 0 ? 'text-amber-600' : 'text-teal-600'}`}>
+              {gDev >= 0 ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
+              {gDev > 0 ? `+${gDev}` : gDev} mg/dL
             </span>
             <span className="text-slate-500">vs personal baseline</span>
           </div>
@@ -124,7 +147,7 @@ export default function OverviewView({ twinState, patientHistory, onNavigate, on
             <span className="text-xs font-semibold text-slate-500">mg/dL/min</span>
           </div>
           <div className="mt-2 text-xs text-slate-500">
-            Acceleration: <strong className="text-slate-700">{dyn.glucose_acceleration_30m} mg/dL/min²</strong>
+            Acceleration: <strong className="text-slate-700">{dyn?.glucose_acceleration_30m ?? dyn?.glucose_acc_30m ?? 0} mg/dL/min²</strong>
           </div>
         </div>
 
@@ -158,24 +181,24 @@ export default function OverviewView({ twinState, patientHistory, onNavigate, on
           </div>
           <div className="mt-2 flex items-baseline space-x-3">
             <div>
-              <span className="text-2xl font-bold text-slate-900">{dyn.hr}</span>
+              <span className="text-2xl font-bold text-slate-900">{typeof dyn?.hr === 'number' ? Math.round(dyn.hr) : (dyn?.heart_rate ?? 72)}</span>
               <span className="text-[10px] text-slate-500 ml-1">BPM</span>
             </div>
             <div>
-              <span className="text-2xl font-bold text-slate-900">{dyn.hrv}</span>
+              <span className="text-2xl font-bold text-slate-900">{typeof dyn?.hrv === 'number' ? Math.round(dyn.hrv) : (dyn?.hrv ?? 45)}</span>
               <span className="text-[10px] text-slate-500 ml-1">ms HRV</span>
             </div>
           </div>
           <div className="mt-2 text-xs text-slate-500">
-            Stress proxy: <strong className="text-slate-700">{derived.stress_proxy}</strong>
+            Stress proxy: <strong className="text-slate-700">{derived?.stress_proxy ?? 0.0}</strong>
           </div>
         </div>
 
         {/* Metric 5: Excursion Forecast */}
         <div className={`rounded-xl border p-4 shadow-sm ${
-          prediction.risk_category === 'CRITICAL' ? 'bg-rose-50 border-rose-300' :
-          prediction.risk_category === 'HIGH' ? 'bg-orange-50 border-orange-300' :
-          prediction.risk_category === 'MEDIUM' ? 'bg-amber-50 border-amber-300' :
+          prediction?.risk_category === 'CRITICAL' ? 'bg-rose-50 border-rose-300' :
+          prediction?.risk_category === 'HIGH' ? 'bg-orange-50 border-orange-300' :
+          prediction?.risk_category === 'MEDIUM' ? 'bg-amber-50 border-amber-300' :
           'bg-emerald-50 border-emerald-300'
         }`}>
           <div className="flex justify-between items-start">
@@ -188,11 +211,11 @@ export default function OverviewView({ twinState, patientHistory, onNavigate, on
             <span className="text-3xl font-extrabold tracking-tight text-slate-900">
               {Math.round(risk * 100)}%
             </span>
-            <span className="text-xs font-bold uppercase text-slate-700">{prediction.risk_category}</span>
+            <span className="text-xs font-bold uppercase text-slate-700">{prediction?.risk_category || 'LOW'}</span>
           </div>
           <div className="mt-2 text-xs font-medium text-slate-700 flex items-center">
             <Clock className="w-3.5 h-3.5 mr-1" />
-            {prediction.eta_minutes ? `ETA Spike: ~${prediction.eta_minutes} min` : 'Normal glycemic window'}
+            {prediction?.eta_minutes ? `ETA Spike: ~${prediction.eta_minutes} min` : 'Normal glycemic window'}
           </div>
         </div>
       </div>
@@ -208,11 +231,11 @@ export default function OverviewView({ twinState, patientHistory, onNavigate, on
                 Live Continuous Glucose Timeline (CGM)
               </h2>
               <p className="text-xs text-slate-500">
-                Real-time 5-minute sampling trajectory compared against patient baseline ({patient.baseline_glucose} mg/dL) & acute clinical threshold (180 mg/dL).
+                Real-time 5-minute sampling trajectory compared against patient baseline ({patient?.baseline_glucose ?? 115} mg/dL) & acute clinical threshold (180 mg/dL).
               </p>
             </div>
             <button
-              onClick={() => onNavigate('monitoring')}
+              onClick={() => navigate('monitoring')}
               className="text-xs font-semibold text-teal-600 hover:text-teal-700 flex items-center"
             >
               Full Timeline <ChevronRight className="w-4 h-4 ml-0.5" />
@@ -220,19 +243,26 @@ export default function OverviewView({ twinState, patientHistory, onNavigate, on
           </div>
 
           <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="time" tick={{ fontSize: 11, fill: '#64748b' }} />
-                <YAxis domain={['auto', 'auto']} tick={{ fontSize: 11, fill: '#64748b' }} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '12px' }}
-                />
-                <ReferenceLine y={180} stroke="#e11d48" strokeDasharray="4 4" label={{ value: 'Hyperglycemia Threshold (180 mg/dL)', fill: '#e11d48', fontSize: 10, position: 'top' }} />
-                <ReferenceLine y={patient.baseline_glucose} stroke="#0d9488" strokeDasharray="2 2" label={{ value: `Personal Baseline (${patient.baseline_glucose})`, fill: '#0d9488', fontSize: 10, position: 'insideBottomRight' }} />
-                <Line type="monotone" dataKey="glucose" stroke="#0f766e" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
-              </LineChart>
-            </ResponsiveContainer>
+            {chartData.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-full text-slate-400 text-xs">
+                <Activity className="w-6 h-6 mb-2 text-slate-400 animate-pulse" />
+                <span>Loading continuous glucose telemetry...</span>
+              </div>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                  <XAxis dataKey="time" tick={{ fontSize: 11, fill: '#64748b' }} />
+                  <YAxis domain={['auto', 'auto']} tick={{ fontSize: 11, fill: '#64748b' }} />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '12px' }}
+                  />
+                  <ReferenceLine y={180} stroke="#e11d48" strokeDasharray="4 4" label={{ value: 'Hyperglycemia Threshold (180 mg/dL)', fill: '#e11d48', fontSize: 10, position: 'top' }} />
+                  <ReferenceLine y={patient?.baseline_glucose ?? 115} stroke="#0d9488" strokeDasharray="2 2" label={{ value: `Personal Baseline (${patient?.baseline_glucose ?? 115})`, fill: '#0d9488', fontSize: 10, position: 'insideBottomRight' }} />
+                  <Line type="monotone" dataKey="glucose" stroke="#0f766e" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            )}
           </div>
         </div>
 

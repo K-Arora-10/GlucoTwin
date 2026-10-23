@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { Users, Search, CheckCircle2, Shield, Heart, Activity, AlertTriangle, Pill } from 'lucide-react';
 
-export default function PatientsView({ patients, selectedPatientId, setSelectedPatientId }) {
+export default function PatientsView({ patients = [], selectedPatientId, setSelectedPatientId, onSelectPatient }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedArchetype, setSelectedArchetype] = useState('ALL');
 
+  const handleSelect = onSelectPatient || setSelectedPatientId || (() => {});
+  const patientList = Array.isArray(patients) ? patients : (patients?.patients || []);
+
   const archetypes = ['ALL', 'Stable Diabetic', 'High-Risk Diabetic', 'Sleep-Deprived & Stress-Reactive', 'High Activity / Well-Compensated', 'Complex Multi-Morbidity & Sensor Dropout'];
 
-  const filteredPatients = patients.filter((p) => {
+  const filteredPatients = patientList.filter((p) => {
     const matchesSearch =
-      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.patient_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.archetype.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesArch = selectedArchetype === 'ALL' || p.archetype === selectedArchetype;
+      (p?.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (p?.patient_id || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (p?.archetype || '').toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesArch = selectedArchetype === 'ALL' || p?.archetype === selectedArchetype;
     return matchesSearch && matchesArch;
   });
 
@@ -149,7 +152,7 @@ export default function PatientsView({ patients, selectedPatientId, setSelectedP
               {/* Action Button */}
               <div className="mt-5 pt-3 border-t border-slate-100">
                 <button
-                  onClick={() => setSelectedPatientId(p.patient_id)}
+                  onClick={() => handleSelect(p.patient_id)}
                   disabled={isSelected}
                   className={`w-full py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1.5 ${
                     isSelected
