@@ -20,7 +20,14 @@ if [ ! -d "venv" ]; then
     echo "Creating virtual environment 'venv'..."
     python3 -m venv venv
 fi
-source venv/bin/activate
+if [ -f "venv/Scripts/activate" ]; then
+    source "venv/Scripts/activate"
+elif [ -f "venv/bin/activate" ]; then
+    source "venv/bin/activate"
+else
+    echo "Virtual environment not found. Create it first."
+    exit 1
+fi
 
 # 2. Python dependencies
 echo ""
