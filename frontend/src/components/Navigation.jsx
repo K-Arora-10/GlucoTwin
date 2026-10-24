@@ -157,8 +157,8 @@ export default function Navigation({
       </div>
 
       {/* Main Tab Navigation Bar */}
-      <nav className="bg-slate-950/80 border-t border-slate-900 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex space-x-1 overflow-x-auto py-2 scrollbar-none">
+      <nav className="bg-slate-950/80 border-t border-slate-900 px-2 sm:px-4 lg:px-8">
+        <div className="max-w-7xl mx-auto flex space-x-0.5 sm:space-x-1 overflow-x-auto py-2 scrollbar-none">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentView === item.id;
@@ -166,13 +166,13 @@ export default function Navigation({
               <button
                 key={item.id}
                 onClick={() => setCurrentView(item.id)}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                className={`flex items-center space-x-1 sm:space-x-1.5 px-2 lg:px-2.5 xl:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                   isActive
                     ? 'bg-cyan-500 text-slate-950 shadow-md font-bold'
                     : 'text-slate-400 hover:text-white hover:bg-slate-900'
                 }`}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 <span>{item.label}</span>
               </button>
             );

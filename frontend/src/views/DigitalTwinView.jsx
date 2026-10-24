@@ -30,7 +30,13 @@ export default function DigitalTwinView({ twinState, onNavigate, onSimulateWhatI
   const gDev = derived?.glucose_dev_base ?? 0.0;
   const gDevPct = derived?.glucose_dev_percent ?? 0.0;
   const hrDev = derived?.hr_dev_base ?? 0.0;
+  const hrDevPct = derived?.hr_dev_percent ?? derived?.hr_deviation_pct ?? (
+    (baseline?.baseline_hr || patient?.baseline_hr) && dyn?.hr
+      ? Number((((dyn.hr - (baseline?.baseline_hr || patient?.baseline_hr)) / (baseline?.baseline_hr || patient?.baseline_hr)) * 100).toFixed(1))
+      : 0.0
+  );
   const hrvDev = derived?.hrv_dev_base ?? 0.0;
+  const hrvDevPct = derived?.hrv_dev_percent ?? 0.0;
 
   return (
     <div className="space-y-6">
@@ -187,7 +193,7 @@ export default function DigitalTwinView({ twinState, onNavigate, onSimulateWhatI
             </div>
             <div className="flex justify-between text-[10px] text-slate-400 mt-1">
               <span>Severe Excursion</span>
-              <span>Near Personal Baseline ({patient.baseline_glucose} mg/dL)</span>
+              <span>Near Personal Baseline ({baseline.baseline_glucose || patient.baseline_glucose || 110} mg/dL)</span>
             </div>
           </div>
 
@@ -195,7 +201,7 @@ export default function DigitalTwinView({ twinState, onNavigate, onSimulateWhatI
           <div>
             <div className="flex justify-between items-center text-xs mb-1">
               <span className="font-semibold text-slate-700">Cardiovascular Tone (Resting HR Deviation)</span>
-              <span className="font-bold text-slate-900">{hrDev > 0 ? `+${hrDev}` : hrDev} BPM ({hrDevPct}%)</span>
+              <span className="font-bold text-slate-900">{hrDev > 0 ? `+${hrDev}` : hrDev} BPM ({hrDevPct > 0 ? `+${hrDevPct}` : hrDevPct}%)</span>
             </div>
             <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
               <div
@@ -205,7 +211,7 @@ export default function DigitalTwinView({ twinState, onNavigate, onSimulateWhatI
             </div>
             <div className="flex justify-between text-[10px] text-slate-400 mt-1">
               <span>Below Baseline</span>
-              <span>Nominal Baseline ({patient.baseline_hr} BPM)</span>
+              <span>Nominal Baseline ({baseline.baseline_hr || patient.baseline_hr || 70} BPM)</span>
               <span>Elevated Sympathetic</span>
             </div>
           </div>
@@ -214,7 +220,7 @@ export default function DigitalTwinView({ twinState, onNavigate, onSimulateWhatI
           <div>
             <div className="flex justify-between items-center text-xs mb-1">
               <span className="font-semibold text-slate-700">Autonomic Recovery (HRV RMSSD)</span>
-              <span className="font-bold text-slate-900">{dyn.hrv} ms ({hrvDev > 0 ? `+${hrvDev}` : hrvDev} ms)</span>
+              <span className="font-bold text-slate-900">{dyn.hrv ?? '--'} ms ({hrvDev > 0 ? `+${hrvDev}` : hrvDev} ms)</span>
             </div>
             <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
               <div
@@ -244,11 +250,11 @@ export default function DigitalTwinView({ twinState, onNavigate, onSimulateWhatI
               <span className="font-bold text-slate-900 block mb-1">1. Relative Glycemic Excursion:</span>
               <div className="flex items-center justify-between text-slate-700">
                 <span>Current Glucose:</span>
-                <span className="font-mono font-bold">{dyn.glucose} mg/dL</span>
+                <span className="font-mono font-bold">{dyn.glucose ?? '--'} mg/dL</span>
               </div>
               <div className="flex items-center justify-between text-slate-700 mt-1">
                 <span>Individual Fasting Baseline:</span>
-                <span className="font-mono font-bold">{patient.baseline_glucose} mg/dL</span>
+                <span className="font-mono font-bold">{baseline.baseline_glucose || patient.baseline_glucose || 110} mg/dL</span>
               </div>
               <div className="flex items-center justify-between text-teal-700 font-semibold mt-1 pt-1 border-t border-slate-200">
                 <span>Personalized Offset:</span>
